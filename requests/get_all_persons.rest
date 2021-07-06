@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/persons
+GET http://lukasedv-phonebook-backend.azurewebsites.net/api/persons
 
 ###
 
