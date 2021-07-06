@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/1a8d5984-7568-4738-92c3-f2e5ad971683/resourceGroups/fullstackopen_rg/providers/Microsoft.Web/sites/lukasedv-phonebook-backend",
+    "appService.deploySubpath": "."
+}
