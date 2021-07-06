@@ -1,1 +1,17 @@
 GET http://localhost:3001/api/persons
+
+###
+
+GET http://localhost:3001/api/persons/1
+
+###
+DELETE http://localhost:3001/api/persons/axxz2jp00
+
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Lukas Lundin",
+    "number": "123123123123"
+}
