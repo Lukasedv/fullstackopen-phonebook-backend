@@ -47,33 +47,41 @@ let persons = [
   })
 
   app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
+    const id = request.params.id
     persons = persons.filter(person => person.id !== id)
   
     response.status(204).end()
   })
 
   const generateId = () => {
-    const maxId = persons.length > 0
-      ? Math.max(...persons.map(n => n.id))
-      : 0
-    return maxId + 1
+    return Math.random().toString(36).substr(2, 9);
   }
   
   app.post('/api/persons', (request, response) => {
     const body = request.body
   
-    if (!body.content) {
+    if (!body.name) {
       return response.status(400).json({ 
-        error: 'content missing' 
+        error: 'name missing' 
       })
     }
+
+    if (!body.number) {
+        return response.status(400).json({ 
+          error: 'number missing' 
+        })
+      }
+    
+    if (persons.some(person => person.name === body.name)) {
+        return response.status(400).json({ 
+          error: 'name must be unique' 
+        })
+      } 
   
     const person = {
       name: body.name,
       number: body.number,
-      date: new Date(),
-      id: generateId(),
+      id: generateId()
     }
   
     persons = persons.concat(person)
