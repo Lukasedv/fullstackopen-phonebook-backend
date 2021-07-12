@@ -15,10 +15,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'Malformatted id' })
-  }
-
-  if (error.name === 'ValidationError') {
-    return response.status(400).send({ error: 'Validation error' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
@@ -55,14 +53,16 @@ app.use(morgan(':method :url :status :response-time ms - :body '))
 
   app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
+    console.log(body)
   
     const person = {
       name: body.name,
       number: body.number,
     }
   
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(request.params.id, person, { runValidators: true, new: true, context: 'query'})
       .then(updatedPerson => {
+        console.log("person updated", updatedPerson)
         response.json(updatedPerson)
       })
       .catch(error => next(error))
@@ -115,7 +115,6 @@ app.use(morgan(':method :url :status :response-time ms - :body '))
 
   app.use(unknownEndpoint)
   app.use(errorHandler)
-  
   
   const PORT = process.env.PORT
   app.listen(PORT, () => {
