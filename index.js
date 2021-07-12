@@ -10,6 +10,20 @@ app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'Malformatted id' })
+  }
+
+  if (error.name === 'ValidationError') {
+    return response.status(400).send({ error: 'Validation error' })
+  }
+
+  next(error)
+}
+
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :response-time ms - :body '))
@@ -66,7 +80,7 @@ app.use(morgan(':method :url :status :response-time ms - :body '))
     return Math.random().toString(36).substr(2, 9);
   }
   
-  app.post('/api/persons', (request, response) => {
+  app.post('/api/persons', (request, response, next) => {
     const body = request.body
   
     if (!body.name) {
@@ -100,18 +114,6 @@ app.use(morgan(':method :url :status :response-time ms - :body '))
   }
 
   app.use(unknownEndpoint)
-
-  const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
-  
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    } 
-  
-    next(error)
-  }
-  
-  // this has to be the last loaded middleware.
   app.use(errorHandler)
   
   
