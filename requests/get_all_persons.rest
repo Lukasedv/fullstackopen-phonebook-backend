@@ -16,7 +16,16 @@ content-type: application/json
 
 {
     "name": "Lukas Lundin",
-    "number": "123123123123"
+    "number": "333123123123"
+}
+
+###
+PUT https://lukasedv-phonebook-backend.azurewebsites.net/api/persons/60ec8bb26c8501002eb8de5c
+content-type: application/json
+
+{
+    "name": "Lukas Lundin",
+    "number": "333123123123"
 }
 
 ###
@@ -25,6 +34,6 @@ POST http://localhost:3000/api/persons
 content-type: application/json
 
 {
-    "name": "Mikke",
+    "name": "Puppe",
     "number": "000-002"
 }
